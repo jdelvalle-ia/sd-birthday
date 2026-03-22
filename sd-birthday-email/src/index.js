@@ -71,7 +71,10 @@ cron.schedule('0 10 * * *', () => {
 
 // Opción manual para testeo
 if (process.argv.includes('--manual')) {
-    runBirthdayAgent();
+    runBirthdayAgent().then(() => {
+        console.log('Ejecución manual por GitHub Actions completada. Cerrando proceso.');
+        process.exit(0);
+    });
 }
 
 console.log('Agente sd-birthday-email activo. Programado para las 10:00 AM todos los días.');

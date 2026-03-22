@@ -40,7 +40,10 @@ cron.schedule('0 4 1 * *', () => {
 
 // También permitimos ejecución manual si se pasa un argumento --manual
 if (process.argv.includes('--manual')) {
-    runSync();
+    runSync().then(() => {
+        console.log('Ejecución manual por GitHub Actions completada. Cerrando proceso.');
+        process.exit(0);
+    });
 }
 
 console.log('Agente sd-birthday-db iniciado y programado.');
