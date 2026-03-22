@@ -34,9 +34,11 @@ try {
         SELECT documentacion, nombreyapellidos, fecha_nacimiento, email, ambito
         FROM `$safe_table`
         WHERE 
-            (ambito = 'COIICV' AND estado_coiicv = 'activo') OR
-            (ambito = 'COITICV' AND estado_coiticv = 'activo') OR
-            (ambito = 'SOMDIGITALS' AND estado_somdigitals = 'activo')
+            (
+                (ambito = 'COIICV' AND estado_coiicv = 'activo') OR
+                (ambito = 'COITICV' AND estado_coiticv = 'activo') OR
+                (ambito = 'SOMDIGITALS' AND estado_somdigitals = 'activo')
+            )
     ";
 
     if ($action === 'today') {
