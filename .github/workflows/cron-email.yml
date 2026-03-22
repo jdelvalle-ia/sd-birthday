@@ -1,5 +1,8 @@
 name: Envío Correos (cron-email)
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   # Por ahora no se ejecuta nunca automáticamente.
   # schedule:
@@ -10,8 +13,6 @@ on:
 jobs:
   run-emails:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     defaults:
       run:
@@ -32,7 +33,14 @@ jobs:
       - name: Crear google-auth.json
         env:
           GOOGLE_AUTH_JSON: ${{ secrets.GOOGLE_AUTH_JSON }}
-        run: echo "$GOOGLE_AUTH_JSON" > google-auth.json
+        run: |
+          if [ -z "$GOOGLE_AUTH_JSON" ]; then
+            echo "ERROR CRITICO: El secret GOOGLE_AUTH_JSON no está configurado o está vacío en GitHub."
+            exit 1
+          fi
+          cat << 'EOF' > google-auth.json
+          ${{ secrets.GOOGLE_AUTH_JSON }}
+          EOF
 
       - name: Ejecutar script de envío de correos
         env:
