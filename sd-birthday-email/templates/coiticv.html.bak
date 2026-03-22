@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>¡Feliz Cumpleaños de parte de COITICV!</h1>
+    <p>Estimado/a {{nombre}},</p>
+    <p>Desde el Colegio Oficial de Ingenieros Técnicos en Informática de la Comunidad Valenciana te deseamos un muy feliz día de cumpleaños.</p>
+    <p>Disfruta de tu día.</p>
+</body>
+</html>

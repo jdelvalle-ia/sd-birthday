@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>¡Feliz Cumpleaños de parte de SomDigitals!</h1>
+    <p>Estimado/a {{nombre}},</p>
+    <p>Desde SomDigitals te deseamos un fantástico día de cumpleaños.</p>
+    <p>¡Que cumplas muchos más!</p>
+</body>
+</html>

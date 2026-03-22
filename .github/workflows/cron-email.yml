@@ -1,0 +1,46 @@
+name: Envío Correos (cron-email)
+
+on:
+  # Por ahora no se ejecuta nunca automáticamente.
+  # schedule:
+  #   - cron: '0 10 * * *'  # Ejemplo: A las 10:00 UTC
+  
+  workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña Actions en GitHub
+
+jobs:
+  run-emails:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./sd-birthday-email
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm ci || npm install
+
+      - name: Ejecutar script de envío de correos
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          REPORT_EMAIL: ${{ secrets.REPORT_EMAIL }}
+          DRY_RUN: ${{ secrets.DRY_RUN }}  # Útil para no enviar correos de verdad
+        run: node src/index.js --manual

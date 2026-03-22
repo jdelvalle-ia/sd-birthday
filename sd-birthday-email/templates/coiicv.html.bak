@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #0b5394;
+        }
+
+        .callback {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>¡Feliz Cumpleaños de parte de COIICV!</h1>
+    <p>¡Muchas felicidades, {{nombre}}!</p>
+    <p>Te deseamos un <strong>feliz cumpleaños</strong> y un año lleno de grandes logros. Gracias por seguir confiando
+        en nosotros para acompañarte en tu carrera profesional y por tu valiosa implicación en nuestro colectivo.</p>
+    <p>¡Que tengas un día excelente!</p>
+    <p>&nbsp;</p>
+    <p><strong>Junta de Gobierno del COIICV</strong><br>
+        Colegio Oficial de Ingeniería Informática de la Comunitat Valenciana<br>
+        C/ Almirante Cadarso, 26<br>
+        46005 Valencia<br>
+        Telf: +34 96 362 29 94<br>
+        <a href="http://coiicv.org/" target="_blank">www.coiicv.org</a>
+    </p>
+    <p style="font-size: 2;"">CONFIDENCIALIDAD: Este mensaje y en su caso los documentos adjuntos son confidenciales. Si usted ha recibido este correo por error, tenga la amabilidad de eliminarlo de su buzón y avisar al remitente mediante reenvío a su dirección electrónica; no deberá copiar el mensaje ni divulgar su contenido a ninguna persona.</p>
+    <p style=" font-size: 2;"">PROTECCIÓN DE DATOS: En virtud de lo establecido en el RGPD y en la Ley Orgánica de
+        Protección de Datos y garantía de derechos digitales, el Colegio Oficial de Ingeniería en Informática de la
+        Comunitat Valenciana, usará sus datos personales con la única finalidad de establecer una comunicación directa
+        con usted en el ejercicio de las potestades públicas encomendadas o para la respuesta a consultas o dudas que
+        puedan existir. También le informamos de sus derechos de acceso, rectificación, supresión, limitación del
+        tratamiento, portabilidad de datos u oposición, incluida la oposición a decisiones individuales automatizadas,
+        pudiendo ejercitarlos en la dirección de correo <a href="mailto:privacidad@coiicv.org"
+            target="_blank">privacidad@coiicv.org</a>. Puede acudir también a la autoridad de control competente para
+        reclamar cualquier infracción en materia de protección de datos. Para más información acuda a nuestra Política
+        de Privacidad.</p>
+</body>
+
+</html>
