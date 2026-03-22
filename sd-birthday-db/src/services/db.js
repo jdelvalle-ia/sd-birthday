@@ -1,31 +1,35 @@
-const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-const config = {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-};
-
 async function getBirthdays() {
-    const connection = await mysql.createConnection(config);
-    try {
-        const query = `
-            SELECT documentacion, nombreyapellidos, fecha_nacimiento, email, ambito
-            FROM ${process.env.DB_TABLE}
-            WHERE 
-                (ambito = 'COIICV' AND estado_coiicv = 'activo') OR
-                (ambito = 'COITICV' AND estado_coiticv = 'activo') OR
-                (ambito = 'SOMDIGITALS' AND estado_somdigitals = 'activo')
-        `;
-        
-        const [rows] = await connection.execute(query);
-        return rows;
-    } finally {
-        await connection.end();
+    if (!process.env.API_URL) {
+        throw new Error('API_URL no configurada en .env. Debe apuntar a tu archivo sd-birthday.php subido al servidor.');
     }
+
+    const payload = {
+        user: process.env.DB_USER,
+        pass: process.env.DB_PASS,
+        name: process.env.DB_NAME,
+        table: process.env.DB_TABLE,
+        action: 'all'
+    };
+
+    const response = await fetch(process.env.API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error del servidor PHP (${response.status}): ${errorText}`);
+    }
+
+    const data = await response.json();
+    if (data.error) {
+        throw new Error(`Error retornado por puente PHP: ${data.error}`);
+    }
+
+    return data;
 }
 
 module.exports = {
