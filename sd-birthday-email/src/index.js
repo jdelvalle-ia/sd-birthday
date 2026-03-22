@@ -1,6 +1,6 @@
 require('dotenv').config();
 const cron = require('node-cron');
-const { getBirthdaysToday } = require('./services/db');
+const { getBirthdaysTodayFromSheet } = require('./services/sheets');
 const { sendBirthdayEmail, sendDailyReport } = require('./services/email');
 const { parseName } = require('./utils/nameParser');
 
@@ -8,7 +8,7 @@ async function runBirthdayAgent() {
     console.log(`[${new Date().toLocaleString()}] Iniciando proceso diario de cumpleaños...`);
     
     try {
-        const birthdayPeople = await getBirthdaysToday();
+        const birthdayPeople = await getBirthdaysTodayFromSheet();
         console.log(`Se han encontrado ${birthdayPeople.length} personas que cumplen años hoy.`);
 
         const reports = [];

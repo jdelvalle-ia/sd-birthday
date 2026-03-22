@@ -87,6 +87,55 @@ async function logEmailProcess(stats) {
     console.log(`Orden: Nueva entrada añadida al principio. Total entradas: ${finalData.length}`);
 }
 
+async function getBirthdaysTodayFromSheet() {
+    const jwt = new JWT({
+        email: creds.client_email,
+        key: creds.private_key,
+        scopes: SCOPES,
+    });
+
+    if (!process.env.GOOGLE_SHEET_ID) {
+        throw new Error('GOOGLE_SHEET_ID no configurado en .env');
+    }
+
+    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, jwt);
+    await doc.loadInfo();
+
+    const sheet = doc.sheetsByTitle['SDcumpleaños'];
+    if (!sheet) {
+        throw new Error('Pestaña SDcumpleaños no encontrada. El script cron-db debe ejecutarse primero.');
+    }
+
+    const rows = await sheet.getRows();
+    const today = new Date();
+    const currentDay = today.getDate();
+    const currentMonth = today.getMonth() + 1;
+
+    const result = [];
+    for (const row of rows) {
+        const item = row.toObject();
+        if (!item.fecha_nacimiento) continue;
+
+        const parts = item.fecha_nacimiento.split('/');
+        if (parts.length >= 2) {
+            const rowDay = parseInt(parts[0], 10);
+            const rowMonth = parseInt(parts[1], 10);
+
+            if (rowDay === currentDay && rowMonth === currentMonth) {
+                result.push({
+                    documentacion: item.documentacion,
+                    nombreyapellidos: item.nombreyapellidos,
+                    fecha_nacimiento: item.fecha_nacimiento,
+                    email: item.email,
+                    ambito: item.ambito
+                });
+            }
+        }
+    }
+    return result;
+}
+
 module.exports = {
     logEmailProcess,
+    getBirthdaysTodayFromSheet
 };
