@@ -37,14 +37,7 @@ async function logEmailProcess(stats) {
     const rows = await sheet.getRows();
     
     // Convert current rows to objects for easier manipulation
-    const existingData = rows.map(r => ({
-        'Fecha/Hora': r.get('Fecha/Hora'),
-        'SOMDIGITALS': r.get('SOMDIGITALS'),
-        'COIICV': r.get('COIICV'),
-        'COITICV': r.get('COITICV'),
-        'Total': r.get('Total'),
-        'Tarea': r.get('Tarea')
-    }));
+    const existingData = rows.map(r => r.toObject());
 
     const now = new Date();
     const formattedDate = `${now.toLocaleDateString('es-ES')} ${now.toLocaleTimeString('es-ES')}`;

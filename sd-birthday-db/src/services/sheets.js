@@ -109,21 +109,21 @@ async function logUpdate(count) {
     // Always ensure headers
     await sheet.setHeaderRow(['Fecha/Hora', 'SOMDIGITALS', 'COIICV', 'COITICV', 'Total', 'Tarea']);
 
-    // Use raw data
+    // Use raw data securely as objects
     const rows = await sheet.getRows();
-    const nextData = rows.map(r => r._rawData);
+    const nextData = rows.map(r => r.toObject());
 
     const now = new Date();
     const formattedDate = `${now.toLocaleDateString('es-ES')} ${now.toLocaleTimeString('es-ES')}`;
 
-    const newData = [
-        formattedDate,
-        '',
-        '',
-        '',
-        count,
-        'Actualización datos cumpleaños'
-    ];
+    const newData = {
+        'Fecha/Hora': formattedDate,
+        'SOMDIGITALS': '',
+        'COIICV': '',
+        'COITICV': '',
+        'Total': count.toString(),
+        'Tarea': 'Actualización datos cumpleaños'
+    };
 
     nextData.unshift(newData);
     
@@ -131,7 +131,9 @@ async function logUpdate(count) {
     const finalData = nextData.slice(0, MAX_LOG_ROWS);
 
     await sheet.clearRows();
-    await sheet.addRows(finalData);
+    if (finalData.length > 0) {
+        await sheet.addRows(finalData);
+    }
 
     console.log(`Log de actualización guardado: ${formattedDate} - Total: ${count}`);
 }
